@@ -195,7 +195,7 @@ class DigitClassificationModel(object):
         loss = 100
         count = 0
         batch_size = 100
-        # get_accuracy = 0
+        get_accuracy = 0
         while loss > 0.2:
 
             for x, y in dataset.iterate_forever(batch_size):
@@ -205,9 +205,11 @@ class DigitClassificationModel(object):
                 self.W_1.update(list_of_gradients[0], -.5)
                 self.W_2.update(list_of_gradients[1], -.5)
                 self.B_1.update(list_of_gradients[2], -.5)
-                # get_accuracy = dataset.get_validation_accuracy()
+                get_accuracy = dataset.get_validation_accuracy()
                 loss = nn.as_scalar(self.get_loss(x, y))
                 count += 1
+                if get_accuracy >= 0.98:
+                    return self
 
 
 class LanguageIDModel(object):
